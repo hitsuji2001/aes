@@ -40,6 +40,7 @@ void from_string_to_key(const char *str, Key *key);
 void from_plain_text_to_state_matrix(const char *txt, State *state);
 void print_message_to_hex(const char *msg);
 
+// Deprecated
 char *from_state_matrix_to_plain_text(const State *state);
 
 // If echoable != 0, these function will print out the output message

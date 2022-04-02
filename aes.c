@@ -15,6 +15,7 @@ void from_plain_text_to_state_matrix(const char *txt, State *state) {
   }
 }
 
+// Deprecated
 void print_message_to_hex(const char *msg) {
   for (size_t i = 0; i < strlen(msg); ++i) {
     printf("0x%02x ", msg[i]);
@@ -267,10 +268,10 @@ void key_expansion(RoundKey *round_key, const Key *key) {
 void print_current_state(const State *state) {
   for (int i = 0; i < Nb; ++i) {
     for (int j = 0; j < Nb; ++j) {
-      printf("0x%02x ", state->state[i][j]);
+      printf("0x%02x ", state->state[j][i]);
     }
-    printf("\n");
   }
+  printf("\n");
 }
 
 void matrix_mul(const uint8_t *gf, uint8_t *arr) {
