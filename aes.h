@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-#include <assert.h>
 
 #include "./aes_util.h"
 
@@ -16,7 +15,7 @@
 #elif defined(AES192)
   #define Nk 6
   #define Nr 12
-#else
+#else // Default will be AES128
   #define Nk 4
   #define Nr 10
 #endif // AES(type)
@@ -35,7 +34,7 @@ typedef struct {
 
 //////////////////// Parser ////////////////////
 
-// Message should be 16 bytes
+// Currently message should be 16 bytes
 void from_string_to_key(const char *str, Key *key);
 void from_plain_text_to_state_matrix(const char *txt, State *state);
 void print_message_to_hex(const char *msg);
@@ -43,9 +42,6 @@ void print_message_to_hex(const char *msg);
 // Deprecated
 char *from_state_matrix_to_plain_text(const State *state);
 
-// If echoable != 0, these function will print out the output message
-// in hexa form and the result string itself, else it will return
-// just the result string.
 State AES_ENCRYPT(const char *mssg, const char *key);
 State AES_DECRYPT(const char *code, const char *key);
 //////////////// End of Parser /////////////////

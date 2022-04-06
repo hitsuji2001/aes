@@ -8,30 +8,36 @@ void from_string_to_key(const char *str, Key *key) {
 }
 
 void from_plain_text_to_state_matrix(const char *txt, State *state) {
-  for (int i = 0; i < Nb; ++i) {
-    for (int j = 0; j < Nb; ++j) {
-      state->state[i][j] = txt[j * Nb + i];
+  for (int row = 0; row < Nb; ++row) {
+    for (int col = 0; col < Nb; ++col) {
+      state->state[row][col] = 0x00;
     }
   }
+
+  for (int row = 0; row < Nb; ++row) {
+    for (int col = 0; col < Nb; ++col) {
+      state->state[row][col] = txt[col * Nb + row];
+    }
+  }
+}
+
+char *from_state_matrix_to_plain_text(const State *state) {
+  static char mess[128] = {0};
+  for (int row = 0; row < Nb; ++row) {
+    for (int col = 0; col < Nb; ++col) {
+      mess[col * Nb + row] = state->state[row][col];
+    }
+  }
+
+  return mess;
 }
 
 // Deprecated
 void print_message_to_hex(const char *msg) {
   for (size_t i = 0; i < strlen(msg); ++i) {
-    printf("0x%02x ", msg[i]);
+    printf("x%02x ", msg[i]);
   }
   printf("\n");
-}
-
-char *from_state_matrix_to_plain_text(const State *state) {
-  static char mess[128] = {0};
-  for (int i = 0; i < Nb; ++i) {
-    for (int j = 0; j < Nb; ++j) {
-      mess[j * Nb + i] = state->state[i][j];
-    }
-  }
-
-  return mess;
 }
 
 State AES_ENCRYPT(const char *mssg, const char *key) {
@@ -268,7 +274,7 @@ void key_expansion(RoundKey *round_key, const Key *key) {
 void print_current_state(const State *state) {
   for (int i = 0; i < Nb; ++i) {
     for (int j = 0; j < Nb; ++j) {
-      printf("0x%02x ", state->state[j][i]);
+      printf("x%02x ", state->state[j][i]);
     }
   }
   printf("\n");
